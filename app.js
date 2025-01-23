@@ -1,36 +1,39 @@
 console.log("Hello, Progressive Web App!");
 
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker
-            .register("/sw.js")
+let deferredPrompt; // Store the install prompt event
+
+if ('serviceWorker' in navigator) {
+    // Register the service worker
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-                console.log("Service Worker registered with scope:", registration.scope);
+                console.log('Service Worker registered with scope:', registration.scope);
             })
             .catch((error) => {
-                console.log("Service Worker registration failed:", error);
+                console.log('Service Worker registration failed:', error);
             });
     });
 }
 
-// Handle Add to Home Screen (A2HS)
-let deferredPrompt;
-const downloadButton = document.getElementById("download");
-
-window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault(); // Prevent default browser behavior
+// Listen for the beforeinstallprompt event
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); // Prevent the default prompt
     deferredPrompt = e; // Save the event for triggering later
-    downloadButton.style.display = "block"; // Show the install button
 
-    downloadButton.addEventListener("click", () => {
-        deferredPrompt.prompt(); // Trigger the install prompt
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === "accepted") {
-                console.log("User accepted the A2HS prompt.");
-            } else {
-                console.log("User dismissed the A2HS prompt.");
-            }
-            deferredPrompt = null;
-        });
+    const installButton = document.getElementById('download');
+    installButton.style.display = 'block'; // Show the install button
+
+    installButton.addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt(); // Show the install prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null; // Reset the deferred prompt
+            });
+        }
     });
 });
