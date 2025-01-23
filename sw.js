@@ -3,9 +3,7 @@ self.addEventListener('install', function(event) {
         caches.open('simple-pwa-cache').then(function(cache) {
             return cache.addAll([
                 '/index.html',
-                '/manifest.json',
-                '/icons/icon-192x192.png',
-                '/icons/icon-512x512.png'
+                '/manifest.json'
             ]);
         })
     );
