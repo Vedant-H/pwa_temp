@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My PWA</title>
-    <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="/styles.css">
-    <script src="/app.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple PWA</title>
+  <!-- Link to the manifest -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Welcome to My PWA</h1>
-    <p>This is a fully functional Progressive Web App (PWA).</p>
-    <button id="download" style="">Install App</button>
+  <h1>Welcome to My PWA!</h1>
+  <p>This is a simple PWA that works on Vercel.</p>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(() => console.log('Service Worker Registered'))
+        .catch((err) => console.error('Service Worker Registration Failed:', err));
+    }
+  </script>
 </body>
 </html>
