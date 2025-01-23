@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#2196F3">
-    <link rel="manifest" href="/manifest.json">
-    <title>Simple PWA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My PWA</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    <h1>Welcome to Simple PWA!</h1>
-    <p>This is a basic Progressive Web App.</p>
+  <header>
+    <h1>Welcome to My PWA</h1>
+    <p>This is a simple Progressive Web App hosted on Vercel.</p>
+  </header>
+  <main>
+    <button id="download">Download PWA</button>
+  </main>
+  <footer>
+    <p>© 2025 My PWA</p>
+  </footer>
 
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                .then(function(registration) {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                }, function(error) {
-                    console.log('Service Worker registration failed:', error);
-                });
-            });
-        }
-    </script>
+  <script src="app.js"></script>
 </body>
 </html>
