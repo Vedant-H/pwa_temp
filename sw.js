@@ -1,41 +1,16 @@
-var staticCacheName = "pwa-v2";
-
-self.addEventListener("install", function (e) {
-    console.log("Service Worker: Install");
-    e.waitUntil(
-        caches.open(staticCacheName).then(function (cache) {
-            console.log("Caching app shell...");
-            return cache.addAll([
-                "/", // Cache the root path
-                "/index.html",
-                "/styles.css",
-                "/app.js"
-            ]);
-        })
-    );
+self.addEventListener("install", (e) => {
+    console.log("Service Worker: Installed");
+    // Skip waiting to activate immediately after installation
+    self.skipWaiting();
 });
 
-self.addEventListener("activate", function (e) {
-    console.log("Service Worker: Activate");
-    e.waitUntil(
-        caches.keys().then(function (cacheNames) {
-            return Promise.all(
-                cacheNames.map(function (cache) {
-                    if (cache !== staticCacheName) {
-                        console.log("Deleting old cache:", cache);
-                        return caches.delete(cache);
-                    }
-                })
-            );
-        })
-    );
+self.addEventListener("activate", (e) => {
+    console.log("Service Worker: Activated");
+    // Claim clients so the service worker takes control without reloading
+    self.clients.claim();
 });
 
-self.addEventListener("fetch", function (event) {
-    console.log("Service Worker: Fetching", event.request.url);
-    event.respondWith(
-        caches.match(event.request).then(function (response) {
-            return response || fetch(event.request);
-        })
-    );
+self.addEventListener("fetch", (event) => {
+    console.log("Service Worker: Fetch intercepted for", event.request.url);
+    // No caching, just let the network handle it
 });
