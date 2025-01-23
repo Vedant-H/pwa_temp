@@ -1,7 +1,7 @@
 {
     "name": "Simple PWA",
     "short_name": "PWA",
-    "start_url": "/index.html",
+    "start_url": "https://pwa-temp-mu.vercel.app/index.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#2196F3"
