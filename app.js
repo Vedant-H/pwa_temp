@@ -7,8 +7,7 @@ if ('Notification' in window && 'serviceWorker' in navigator) {
         // Send a simple notification
         navigator.serviceWorker.ready.then(registration => {
           registration.showNotification('Hello from your PWA!', {
-            body: 'You just triggered a notification.',
-            icon: '/icon-192x192.png',
+            body: 'You just triggered a notification.'
           });
         });
       } else {
