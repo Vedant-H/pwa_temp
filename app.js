@@ -1,23 +1,19 @@
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault(); // Prevent the default install prompt
-    deferredPrompt = e; // Save the event for triggering later
-
-    const installButton = document.getElementById('download'); // Button to trigger install
-    installButton.style.display = 'block'; // Show the button
-
-    installButton.addEventListener('click', () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt(); // Trigger the install prompt
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                } else {
-                    console.log('User dismissed the install prompt');
-                }
-                deferredPrompt = null; // Reset deferredPrompt
-            });
-        }
+// Check for Push Notifications support
+if ('Notification' in window && 'serviceWorker' in navigator) {
+  document.getElementById('notifyButton').addEventListener('click', () => {
+    // Request permission for notifications
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        // Send a simple notification
+        navigator.serviceWorker.ready.then(registration => {
+          registration.showNotification('Hello from your PWA!', {
+            body: 'You just triggered a notification.',
+            icon: '/icon-192x192.png',
+          });
+        });
+      } else {
+        alert('Notification permission denied!');
+      }
     });
-});
+  });
+}
