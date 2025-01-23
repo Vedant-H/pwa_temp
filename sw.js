@@ -1,16 +1,40 @@
-self.addEventListener("install", (e) => {
-    console.log("Service Worker: Installed");
-    // Skip waiting to activate immediately after installation
-    self.skipWaiting();
+const CACHE_NAME = 'my-pwa-cache-v1';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+];
+
+// Install the service worker
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
 
-self.addEventListener("activate", (e) => {
-    console.log("Service Worker: Activated");
-    // Claim clients so the service worker takes control without reloading
-    self.clients.claim();
+// Fetch resources from cache or network
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
 });
 
-self.addEventListener("fetch", (event) => {
-    console.log("Service Worker: Fetch intercepted for", event.request.url);
-    // No caching, just let the network handle it
+// Update the service worker
+self.addEventListener('activate', (event) => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
 });
