@@ -18,7 +18,13 @@
 <body>
   <h1>Welcome to My PWA!</h1>
   <p>This is a simple PWA that works on Vercel.</p>
+  <button id="notifyButton">Send Notification</button>
+  
+  <!-- Link to the app script -->
+  <script src="/app.js"></script>
+  
   <script>
+    // Register service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/sw.js')
