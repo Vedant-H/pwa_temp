@@ -2,7 +2,7 @@ const CACHE_NAME = 'pwa-cache-v1';
 const ASSETS = [
   '/',
   '/index.html',
-  '/style.css',
+  '/styles.css',
   '/app.js',
   '/manifest.json'
 ];
